@@ -1,5 +1,14 @@
 [
-    {"nombre": "Temperatura", "valor": "25°C"},
-    {"nombre": "Humedad", "valor": "60%"},
-    {"nombre": "Presión", "valor": "1013 hPa"}
-]
+    {"nombre": "Capuccino Asesino", "valor": "1250"},
+    {"nombre": "Capuccina Balerina", "valor": "300"},
+    {"nombre": "Balerino lololo", "valor": "450"},
+    {"nombre": "Capuccino Asesino", "valor": "1250"},
+    {"nombre": "Capuccina Balerina", "valor": "300"},
+    {"nombre": "Espressa signora", "valor": "2351"},
+    {"nombre": "Tralalero tralala", "valor": "2"},
+    {"nombre": "Bombardilo cocodrilo", "valor": "1111111"},
+    {"nombre": "tung tung tung tung tun tung sahur", "valor": "152"},
+    {"nombre": "Tralalero tralala", "valor": "29"},
+    {"nombre": "Tralalero tralala", "valor": "25123"}
+
+]    
