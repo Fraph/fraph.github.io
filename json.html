@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleccionar Datos desde JSON</title>
+    <style>
+        body {
+            background: #8000ff;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        table {
+            margin: auto;
+            border-collapse: collapse;
+            width: 50%;
+            background-color: rgba(255, 255, 255, 0.9); /* Fondo semitransparente */
+            color: black;
+            border-radius: 10px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+        }
+        select {
+            padding: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Selecciona un conjunto de datos</h1>
+    
+    <!-- Menú para elegir los datos -->
+    <label for="data-selector">Elige una categoría:</label>
+    <select id="data-selector" onchange="cargarDatos()">
+        <option value="datos1.json">Clima</option>
+        <option value="datos2.json">Ventas</option>
+        <option value="datos3.json">Usuarios</option>
+    </select>
+
+    <!-- Tabla para mostrar los datos -->
+    <table id="tabla-datos">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody id="tabla-body"></tbody>
+    </table>
+
+    <script>
+        async function cargarDatos() {
+            let archivoJSON = document.getElementById('data-selector').value; // Obtener el archivo seleccionado
+            
+            try {
+                let response = await fetch(archivoJSON); // Cargar JSON dinámico
+                let datos = await response.json();
+
+                let tbody = document.getElementById('tabla-body');
+                tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos datos
+
+                datos.forEach(item => {
+                    let fila = document.createElement('tr');
+                    fila.innerHTML = `<td>${item.nombre}</td><td>${item.valor}</td>`;
+                    tbody.appendChild(fila);
+                });
+
+            } catch (error) {
+                console.error('Error al cargar los datos:', error);
+            }
+        }
+
+        setInterval(cargarDatos, 5000); // Actualiza cada 5 segundos
+        window.onload = cargarDatos; // Cargar al inicio
+    </script>
+</body>
+</html>

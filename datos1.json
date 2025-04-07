@@ -1,0 +1,5 @@
+[
+    {"nombre": "Temperatura", "valor": "25°C"},
+    {"nombre": "Humedad", "valor": "60%"},
+    {"nombre": "Presión", "valor": "1013 hPa"}
+]
