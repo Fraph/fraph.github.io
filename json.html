@@ -15,7 +15,7 @@
             margin: auto;
             border-collapse: collapse;
             width: 50%;
-            background-color: rgba(255, 255, 255, 0.9); /* Fondo semitransparente */
+            background-color: rgba(255, 255, 255, 0.9);
             color: black;
             border-radius: 10px;
             box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
@@ -28,12 +28,28 @@
             padding: 5px;
             font-size: 16px;
         }
+        .pagination {
+            margin-top: 20px;
+        }
+        .pagination button {
+            padding: 10px 15px;
+            margin: 5px;
+            border: none;
+            background-color: white;
+            color: #8000ff;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .pagination button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
     <h1>Selecciona un conjunto de datos</h1>
     
-    <!-- Menú para elegir los datos -->
     <label for="data-selector">Elige una categoría:</label>
     <select id="data-selector" onchange="cargarDatos()">
         <option value="datos1.json">Clima</option>
@@ -41,7 +57,6 @@
         <option value="datos3.json">Usuarios</option>
     </select>
 
-    <!-- Tabla para mostrar los datos -->
     <table id="tabla-datos">
         <thead>
             <tr>
@@ -52,30 +67,55 @@
         <tbody id="tabla-body"></tbody>
     </table>
 
+    <div class="pagination">
+        <button id="prev-btn" onclick="cambiarPagina(-1)">Anterior</button>
+        <span id="pagina-actual">1</span>
+        <button id="next-btn" onclick="cambiarPagina(1)">Siguiente</button>
+    </div>
+
     <script>
+        let datosGlobales = [];
+        let paginaActual = 1;
+        const elementosPorPagina = 5;
+
         async function cargarDatos() {
-            let archivoJSON = document.getElementById('data-selector').value; // Obtener el archivo seleccionado
-            
+            const archivoJSON = document.getElementById('data-selector').value;
             try {
-                let response = await fetch(archivoJSON); // Cargar JSON dinámico
-                let datos = await response.json();
-
-                let tbody = document.getElementById('tabla-body');
-                tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos datos
-
-                datos.forEach(item => {
-                    let fila = document.createElement('tr');
-                    fila.innerHTML = `<td>${item.nombre}</td><td>${item.valor}</td>`;
-                    tbody.appendChild(fila);
-                });
-
+                const response = await fetch(archivoJSON);
+                datosGlobales = await response.json();
+                paginaActual = 1;
+                mostrarPagina();
             } catch (error) {
                 console.error('Error al cargar los datos:', error);
             }
         }
 
-        setInterval(cargarDatos, 5000); // Actualiza cada 5 segundos
-        window.onload = cargarDatos; // Cargar al inicio
+        function mostrarPagina() {
+            const inicio = (paginaActual - 1) * elementosPorPagina;
+            const fin = inicio + elementosPorPagina;
+            const datosPagina = datosGlobales.slice(inicio, fin);
+
+            const tbody = document.getElementById('tabla-body');
+            tbody.innerHTML = '';
+
+            datosPagina.forEach(item => {
+                const fila = document.createElement('tr');
+                fila.innerHTML = `<td>${item.nombre}</td><td>${item.valor}</td>`;
+                tbody.appendChild(fila);
+            });
+
+            document.getElementById('pagina-actual').textContent = paginaActual;
+            document.getElementById('prev-btn').disabled = paginaActual === 1;
+            document.getElementById('next-btn').disabled = fin >= datosGlobales.length;
+        }
+
+        function cambiarPagina(direccion) {
+            paginaActual += direccion;
+            mostrarPagina();
+        }
+
+        window.onload = cargarDatos;
     </script>
 </body>
 </html>
+
