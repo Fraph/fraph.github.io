@@ -73,49 +73,7 @@
         <button id="next-btn" onclick="cambiarPagina(1)">Siguiente</button>
     </div>
 
-    <script>
-        let datosGlobales = [];
-        let paginaActual = 1;
-        const elementosPorPagina = 5;
-
-        async function cargarDatos() {
-            const archivoJSON = document.getElementById('data-selector').value;
-            try {
-                const response = await fetch(archivoJSON);
-                datosGlobales = await response.json();
-                paginaActual = 1;
-                mostrarPagina();
-            } catch (error) {
-                console.error('Error al cargar los datos:', error);
-            }
-        }
-
-        function mostrarPagina() {
-            const inicio = (paginaActual - 1) * elementosPorPagina;
-            const fin = inicio + elementosPorPagina;
-            const datosPagina = datosGlobales.slice(inicio, fin);
-
-            const tbody = document.getElementById('tabla-body');
-            tbody.innerHTML = '';
-
-            datosPagina.forEach(item => {
-                const fila = document.createElement('tr');
-                fila.innerHTML = `<td>${item.nombre}</td><td>${item.valor}</td>`;
-                tbody.appendChild(fila);
-            });
-
-            document.getElementById('pagina-actual').textContent = paginaActual;
-            document.getElementById('prev-btn').disabled = paginaActual === 1;
-            document.getElementById('next-btn').disabled = fin >= datosGlobales.length;
-        }
-
-        function cambiarPagina(direccion) {
-            paginaActual += direccion;
-            mostrarPagina();
-        }
-
-        window.onload = cargarDatos;
-    </script>
+    <!-- Enlace al script externo -->
+    <script src="script.js"></script>
 </body>
 </html>
-
